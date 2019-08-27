@@ -52,7 +52,7 @@ echo "==> CODEBUILD_PULL_REQUEST = $CODEBUILD_PULL_REQUEST"
 echo "==> CODEBUILD_WEBHOOK_HEAD_REF = $CODEBUILD_WEBHOOK_HEAD_REF"
 echo "==> CODEBUILD_MASTER_DEPLOY = $CODEBUILD_MASTER_DEPLOY"
 
-function mvn-build-deploy() {
+mvn_build_deploy() {
   if [ $CODEBUILD_MASTER_DEPLOY ]; then
     mvn -U clean deploy
   else
@@ -60,12 +60,12 @@ function mvn-build-deploy() {
   fi
 }
 
-function ecr-login() {
+ecr_login() {
   dev_account_id="$1"
   $(aws ecr get-login --no-include-email --registry-ids $dev_account_id)
 }
 
-function docker-push() {
+docker_push() {
   dev_account_id="$1"
   git_commit="$2"
   image_name="$3"

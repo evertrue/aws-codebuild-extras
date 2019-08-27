@@ -1,0 +1,32 @@
+#!/bin/sh
+
+mvn_build_deploy() {
+  if [ $CODEBUILD_MASTER_DEPLOY ]; then
+    mvn -U clean deploy
+  else
+    mvn -U clean verify
+  fi
+}
+
+ecr_login() {
+  dev_account_id="$1"
+  $(aws ecr get-login --no-include-email --registry-ids $dev_account_id)
+}
+
+docker_push() {
+  dev_account_id="$1"
+  git_commit="$2"
+  image_name="$3"
+
+  docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+  docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+
+  if [ $CODEBUILD_MASTER_DEPLOY ]; then
+    docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+    docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+  fi
+}
+
+export -f mvn_build_deploy
+export -f ecr_login
+export -f docker_push

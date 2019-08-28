@@ -55,3 +55,8 @@ echo "==> CODEBUILD_PULL_REQUEST = $CODEBUILD_PULL_REQUEST"
 echo "==> CODEBUILD_WEBHOOK_HEAD_REF = $CODEBUILD_WEBHOOK_HEAD_REF"
 echo "==> CODEBUILD_MASTER_DEPLOY = $CODEBUILD_MASTER_DEPLOY"
 echo "==> GIT_COMMIT = $GIT_COMMIT"
+
+for method in mvn-build docker-push; do
+  curl -fsSL https://raw.githubusercontent.com/evertrue/aws-codebuild-extras/master/$method > $method
+  chmod +x ./$method
+done

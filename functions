@@ -1,6 +1,0 @@
-#!/bin/sh
-
-for method in mvn-build docker-push; do
-  curl -fsSL https://raw.githubusercontent.com/evertrue/aws-codebuild-extras/master/$method > $method
-  chmod +x ./$method
-done

@@ -1,7 +1,9 @@
 #!/bin/sh
 
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
+  echo "Maven clean deploy"
   mvn -U clean deploy
 else
+  echo "Maven clean verify"
   mvn -U clean verify
 fi

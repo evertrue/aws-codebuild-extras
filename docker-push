@@ -4,10 +4,14 @@ dev_account_id="$1"
 git_commit="$2"
 image_name="$3"
 
+echo "Docker tag $image_name with commit $git_commit"
 docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+echo "Docker push commit $git_commit"
 docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
 
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
+  echo "Docker tag as latest"
   docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+  echo "Docker push latest"
   docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
 fi

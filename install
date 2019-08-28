@@ -33,6 +33,9 @@ if [ $CODEBUILD_GIT_BRANCH = "master" ] || [ $CODEBUILD_WEBHOOK_HEAD_REF = "refs
   export CODEBUILD_MASTER_DEPLOY=1
 fi
 
+export git_commit="$(git rev-parse --short=7 HEAD)"
+export GIT_COMMIT="$git_commit"
+
 echo "==> AWS CodeBuild Extra Environment Variables:"
 echo "==> CI = $CI"
 echo "==> CODEBUILD = $CODEBUILD"
@@ -51,3 +54,4 @@ echo "==> CODEBUILD_PROJECT = $CODEBUILD_PROJECT"
 echo "==> CODEBUILD_PULL_REQUEST = $CODEBUILD_PULL_REQUEST"
 echo "==> CODEBUILD_WEBHOOK_HEAD_REF = $CODEBUILD_WEBHOOK_HEAD_REF"
 echo "==> CODEBUILD_MASTER_DEPLOY = $CODEBUILD_MASTER_DEPLOY"
+echo "==> GIT_COMMIT = $GIT_COMMIT"

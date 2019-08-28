@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 mvn_build_deploy() {
   if [ $CODEBUILD_MASTER_DEPLOY ]; then
@@ -27,5 +27,3 @@ docker_push() {
     docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
   fi
 }
-
-declare -pf

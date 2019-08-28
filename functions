@@ -1,31 +1,6 @@
 #!/bin/sh
 
-hello() { echo "hello world" }
-
-mvn_build_deploy() {
-  if [ $CODEBUILD_MASTER_DEPLOY ]; then
-    mvn -U clean deploy
-  else
-    mvn -U clean verify
-  fi
-}
-
-ecr_login() {
-  local dev_account_id="$1"
-  echo "log into ECR with account $dev_account_id"
-  $(aws ecr get-login --no-include-email --registry-ids $dev_account_id)
-}
-
-docker_push() {
-  local dev_account_id="$1"
-  local git_commit="$2"
-  local image_name="$3"
-
-  docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
-  docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
-
-  if [ $CODEBUILD_MASTER_DEPLOY ]; then
-    docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
-    docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
-  fi
-}
+for method in mvn-build docker-push; do
+  curl -fsSL https://raw.githubusercontent.com/evertrue/aws-codebuild-extras/master/$method > $method
+  chmod +x ./$method
+done

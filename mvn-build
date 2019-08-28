@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ $CODEBUILD_MASTER_DEPLOY ]; then
+  mvn -U clean deploy
+else
+  mvn -U clean verify
+fi

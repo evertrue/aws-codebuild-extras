@@ -1,0 +1,13 @@
+#!/bin/sh
+
+dev_account_id="$1"
+git_commit="$2"
+image_name="$3"
+
+docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+
+if [ $CODEBUILD_MASTER_DEPLOY ]; then
+  docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+  docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 mvn_build_deploy() {
   if [ $CODEBUILD_MASTER_DEPLOY ]; then

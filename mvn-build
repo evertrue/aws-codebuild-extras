@@ -1,9 +1,17 @@
 #!/bin/sh
 
+run_or_die() {
+    local cmd="$1"
+    echo "running: $cmd"
+    if ! $cmd; then
+        exit $?
+    fi
+}
+
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
   echo "Maven clean deploy"
-  mvn -U clean deploy
+  run_or_die "mvn -U clean deploy"
 else
   echo "Maven clean verify"
-  mvn -U clean verify
+  run_or_die "mvn -U clean verify"
 fi

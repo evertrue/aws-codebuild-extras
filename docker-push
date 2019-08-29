@@ -5,17 +5,21 @@ shift
 git_commit="$1"
 shift
 
+run_or_die() {
+    local cmd="$1"
+    echo "running: $cmd"
+    if ! $cmd; then
+        exit $?
+    fi
+}
+
 for image_name in "$@"; do
-  echo "Docker tag $image_name with commit $git_commit"
-  docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
-  echo "Docker push commit $git_commit"
-  docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+  run_or_die "docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}"
+  run_or_die "docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}"
 
   if [ $CODEBUILD_MASTER_DEPLOY ]; then
-    echo "Docker tag as latest"
-    docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
-    echo "Docker push latest"
-    docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+    run_or_die "docker tag ${image_name}:latest ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest"
+    run_or_die "docker push ${dev_account_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest"
   fi
 done
 

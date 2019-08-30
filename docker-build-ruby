@@ -6,11 +6,9 @@ project_name="$1"
 shift
 
 run_or_die() {
-    local cmd="$1"
-    echo "running: $cmd"
-    if ! $cmd; then
-        exit $?
-    fi
+  local cmd="$1"
+  echo "running: $cmd"
+  $cmd || exit $?
 }
 
 for image in "$@"; do

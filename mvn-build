@@ -1,5 +1,8 @@
 #!/bin/sh
 
+image_name="$1"
+shift
+
 run_or_die() {
     local cmd="$1"
     echo "running: $cmd"
@@ -10,8 +13,8 @@ run_or_die() {
 
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
   echo "Maven clean deploy"
-  run_or_die "mvn -U clean deploy"
+  run_or_die "mvn -U clean deploy -Dimage_name=${image_name}"
 else
   echo "Maven clean verify"
-  run_or_die "mvn -U clean verify"
+  run_or_die "mvn -U clean verify -Dimage_name=${image_name}"
 fi

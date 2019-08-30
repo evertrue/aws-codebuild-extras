@@ -15,4 +15,3 @@ for image in "$@"; do
   echo "Docker build Dockerfile-${image} and tag with ${namespace}/${project_name}-${image}:latest"
   run_or_die "docker build -f Dockerfile-${image} --build-arg GIT_COMMIT=${GIT_COMMIT} --build-arg BUNDLE_GEM__FURY__IO=${FURY_AUTH} -t ${namespace}/${project_name}-${image}:latest ."
 done
-

@@ -20,4 +20,3 @@ for image_name in "$@"; do
     run_or_die "docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest"
   fi
 done
-

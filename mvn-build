@@ -2,16 +2,12 @@
 
 image_name="$1"
 
-run_or_die() {
-  local cmd="$1"
-  echo "running: $cmd"
-  $cmd || exit $?
-}
+. run-or-die
 
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
   echo "Maven clean deploy"
-  run_or_die "mvn -U clean deploy -Dgit_commit=${git_commit} -Dimage_name=${image_name}"
+  run-or-die "mvn -U clean deploy -Dgit_commit=${git_commit} -Dimage_name=${image_name}"
 else
   echo "Maven clean verify"
-  run_or_die "mvn -U clean verify -Dgit_commit=${git_commit} -Dimage_name=${image_name}"
+  run-or-die "mvn -U clean verify -Dgit_commit=${git_commit} -Dimage_name=${image_name}"
 fi

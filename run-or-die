@@ -1,0 +1,7 @@
+#!/bin/sh
+
+run-or-die() {
+  local cmd="$1"
+  echo "running: $cmd"
+  $cmd || exit $?
+}

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-extra_args="$1"
+extra_args="$@"
 
 . ./run-or-die
 

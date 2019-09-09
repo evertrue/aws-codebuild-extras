@@ -1,7 +1,6 @@
 #!/bin/sh
 
 run_or_die() {
-  local cmd="$@"
-  echo "running: $cmd"
-  $cmd || exit $?
+  echo "running: $@"
+  "$@" || exit $?
 }

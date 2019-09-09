@@ -1,13 +1,11 @@
 #!/bin/sh
 
-extra_args="$@"
-
 . ./run-or-die
 
 if [ $CODEBUILD_MASTER_DEPLOY ]; then
   echo "Maven clean deploy"
-  run_or_die "mvn -U clean deploy -Dgit_commit=${git_commit} ${extra_args}"
+  run_or_die mvn -U clean deploy -Dgit_commit=${git_commit} "$@"
 else
   echo "Maven clean verify"
-  run_or_die "mvn -U clean verify -Dgit_commit=${git_commit} ${extra_args}"
+  run_or_die mvn -U clean verify -Dgit_commit=${git_commit} "$@"
 fi

@@ -8,11 +8,11 @@ shift
 . ./run-or-die
 
 for image_name in "$@"; do
-  run_or_die "docker tag ${image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}"
-  run_or_die "docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}"
+  run_or_die docker tag ${image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
+  run_or_die docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:${git_commit}
 
   if [ $CODEBUILD_MASTER_DEPLOY ]; then
-    run_or_die "docker tag ${image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest"
-    run_or_die "docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest"
+    run_or_die docker tag ${image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
+    run_or_die docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${image_name}:latest
   fi
 done

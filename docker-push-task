@@ -1,0 +1,20 @@
+#!/bin/sh
+
+registry_id="$1"
+shift
+git_commit="$1"
+shift
+local_image_name="$1"
+shift
+remote_image_name="$1"
+shift
+
+. ./run-or-die
+
+run_or_die docker tag ${local_image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${remote_image_name}:${git_commit}
+run_or_die docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${remote_image_name}:${git_commit}
+
+if [ $CODEBUILD_MASTER_DEPLOY ]; then
+  run_or_die docker tag ${local_image_name}:latest ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${remote_image_name}:latest
+  run_or_die docker push ${registry_id}.dkr.ecr.us-east-1.amazonaws.com/${remote_image_name}:latest
+fi

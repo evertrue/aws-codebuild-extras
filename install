@@ -56,7 +56,7 @@ echo "==> CODEBUILD_WEBHOOK_HEAD_REF = $CODEBUILD_WEBHOOK_HEAD_REF"
 echo "==> CODEBUILD_MASTER_DEPLOY = $CODEBUILD_MASTER_DEPLOY"
 echo "==> GIT_COMMIT = $GIT_COMMIT"
 
-for method in run-or-die mvn-build docker-push docker-build-ruby; do
+for method in run-or-die mvn-build docker-push docker-build-ruby docker-push-task; do
   curl -fsSL https://raw.githubusercontent.com/evertrue/aws-codebuild-extras/master/$method > $method
   chmod +x ./$method
 done
